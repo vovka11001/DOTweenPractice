@@ -1,26 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class SphereMover : MonoBehaviour
+public class SphereMover : LoopingTween
 {
-    private const int LoopsCount = -1;
+    [SerializeField] private Transform _target;
 
-    [SerializeField] private Transform _targetPosition;
-
-    private readonly Ease _moveEase = Ease.Linear;
-    private readonly float _moveDuration = 2f;
-
-    private Tween _moveTween;
-
-    private void Start()
+    protected override Tween CreateTween(float duration)
     {
-        StartMove();
-    }
-
-    private void StartMove()
-    {
-        _moveTween?.Kill();
-
-        _moveTween = transform.DOMove(_targetPosition.position, _moveDuration).SetEase(_moveEase).SetLoops(LoopsCount, LoopType.Yoyo).SetLink(gameObject);
+        return transform.DOMove(_target.position, duration);
     }
 }
